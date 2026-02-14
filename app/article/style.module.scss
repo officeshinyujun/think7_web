@@ -1,0 +1,32 @@
+.container{
+    width: 100vw;
+    height: 100vh;
+    background-color: $background-secondary;
+    padding: $s-16;
+    overflow-y: scroll;
+}
+
+.buttonContainer{
+    .gradient{
+        width: 100%;
+        height: 113px;
+        background: linear-gradient(180deg, rgba(250, 250, 250, 0.00) 0%, #FAFAFA 100%);
+    }
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+}
+
+.buttonContainerTwo{
+    width: 100%;
+    background-color: $background-primary;
+    padding: $s-16;
+}
+
+.button{
+    padding: $s-16 !important;
+    background-color: $brand-primary !important;
+    border-radius: $s-16 !important;
+    width: 100% !important;
+}
