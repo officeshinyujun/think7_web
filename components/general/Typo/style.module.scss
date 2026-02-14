@@ -1,0 +1,33 @@
+// Font Weights
+.light {
+    font-weight: $light;
+}
+
+.regular {
+    font-weight: $regular;
+}
+
+.medium {
+    font-weight: $medium;
+}
+
+.semi-bold {
+    font-weight: $semi-bold;
+}
+
+.bold {
+    font-weight: $bold;
+}
+
+// Colors
+.primary {
+    color: $text-primary;
+}
+
+.secondary {
+    color: $text-secondary;
+}
+
+.inverted {
+    color: $background-primary;
+}
