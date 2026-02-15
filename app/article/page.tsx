@@ -4,9 +4,13 @@ import { VStack } from "@/components/general/VStack";
 import Typo from "@/components/general/Typo";
 import s from "./style.module.scss";
 import Button from "@/components/general/Button";
+import { ChevronLeft } from "lucide-react";
+import { HStack } from "@/components/general/HStack";
+import { useRouter } from "next/navigation";
 
 export default function Article() {
 
+    const router = useRouter();
     const dummyData = {
         title : "“석주는 관하여”",
         editor : "NBM 정여진 기자",
@@ -16,10 +20,19 @@ export default function Article() {
     return (
         <VStack fullWidth align="start" justify="start" className={s.container} gap={16}>
             <VStack fullWidth align="start" justify="start" gap={8}>
-                <Typo.XL
-                    color="primary"
-                    fontWeight="bold"
-                >{dummyData.title}</Typo.XL>
+                <HStack fullWidth align="center" justify="between" gap={6}>
+                    <Typo.XL
+                        color="primary"
+                        fontWeight="bold"
+                    >{dummyData.title}</Typo.XL>
+                    <Typo.SM
+                        color="secondary"
+                        fontWeight="medium"
+                        onClick={() => router.back()}
+                    >
+                        이전으로
+                    </Typo.SM>
+                </HStack>
                 <Typo.SM
                     color="secondary"
                     fontWeight="medium"

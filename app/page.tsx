@@ -8,6 +8,7 @@ import Header from "@/components/general/Header";
 import StricSection from "@/components/main/Stric/StricSection";
 import IssueSection from "@/components/main/Issue/IssueSection";
 import ThinkSection from "@/components/main/Think/ThinkSection";
+import BottomBar from "@/components/general/BottomBar";
 
 export default function Home() {
 
@@ -63,6 +64,7 @@ export default function Home() {
         title={dummyData.issue.title}
       />  
       <ThinkSection />
+      <BottomBar /> 
     </VStack>    
   );
 

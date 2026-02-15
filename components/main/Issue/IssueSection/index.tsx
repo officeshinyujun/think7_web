@@ -2,6 +2,7 @@ import Typo from "@/components/general/Typo";
 import { VStack } from "@/components/general/VStack";
 import s from "./style.module.scss"
 import Button from "@/components/general/Button";
+import { useRouter } from "next/navigation";
 
 interface Props {
     editor : string;
@@ -9,6 +10,7 @@ interface Props {
 }
 
 export default function IssueSection({editor, title}: Props) {
+    const router = useRouter();
     return (
         <VStack fullWidth align="start" justify="center" className={s.container}gap={8} >
             <Typo.MD
@@ -29,7 +31,7 @@ export default function IssueSection({editor, title}: Props) {
                     {editor} - 예상시간 7분
                 </Typo.XS>
             </VStack>
-            <Button className={s.button}>
+            <Button className={s.button} onClick={() => router.push("/article")}>
                 <Typo.MD
                     color="inverted"
                     fontWeight="medium"

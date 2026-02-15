@@ -1,0 +1,21 @@
+.container{
+    width: 55px;
+    padding: $s-8 $s-12;
+    border-radius: $s-12;
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+    min-width: fit-content;
+}
+
+.active {
+    background-color: $brand-primary;
+    
+    p {
+        color: $background-primary !important;
+        white-space: nowrap;
+    }
+    
+    svg {
+        stroke: $background-primary;
+    }
+}

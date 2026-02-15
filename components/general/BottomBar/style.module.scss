@@ -1,0 +1,14 @@
+.container{
+    padding: $s-24;
+    background: linear-gradient(180deg, rgba(253, 253, 254, 0.00) 0%, #FDFDFE 100%);
+    position:fixed;
+    bottom:0;
+    left:0;
+}
+
+.contents{
+    padding: $s-8 $s-12;
+    background-color: $background-primary;
+    border-radius: $s-16;
+    border: 1px solid $border-primary;
+}
