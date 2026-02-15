@@ -1,0 +1,67 @@
+.container{
+    min-height: 100vh;
+    padding: $s-16;
+    background-color: $background-secondary;
+}
+
+.progressBarBackground {
+    width: 100%;
+    height: 8px;
+    background-color: $background-secondary;
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.progressBarFill {
+    height: 100%;
+    background-color: $brand-primary;
+    border-radius: 999px;
+    transition: width 0.5s ease-out;
+}
+
+.statusBadge {
+    padding: 2px 8px;
+    background-color: rgba($brand-primary, 0.1);
+    border-radius: 4px;
+}
+
+.typeBox {
+    background-color: $background-secondary;
+    padding: $s-12 $s-16;
+    border-radius: $s-12;
+}
+
+.growthBox {
+    background-color: $background-secondary;
+    padding: $s-16 $s-24;
+    border-radius: $s-16;
+}
+
+.trendBadge {
+    padding: 4px 8px;
+    background-color: rgba($brand-primary, 0.1);
+    border-radius: 999px;
+}
+
+.wrongBadge {
+    padding: 2px 8px;
+    background-color: rgba($text-wrong, 0.1);
+    border-radius: 4px;
+    
+    p {
+        color: $text-wrong !important;
+    }
+}
+
+.wrongBox {
+    background-color: $background-secondary;
+    padding: $s-12 $s-16;
+    border-radius: $s-12;
+}
+
+.nextButton{
+    padding: $s-16 !important;
+    background-color: $brand-primary !important;
+    border-radius: $s-16 !important;
+    width: 100%;
+}

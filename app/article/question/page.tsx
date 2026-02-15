@@ -5,9 +5,10 @@ import s from "./style.module.scss";
 import QuestionSection from "@/components/article/Question/QuestionSection";
 import Button from "@/components/general/Button";
 import Typo from "@/components/general/Typo";
+import { useRouter } from "next/navigation";
 
 export default function Question() {
-
+    const router = useRouter();
     const quizData = [
         {
             title: "Q1. 위 글의 내용과 일치하지 않는 것은?",
@@ -62,7 +63,7 @@ export default function Question() {
             ))}
             <Button
                 className={s.button}
-                onClick={() => {}}
+                onClick={() => router.push("/record")}
             ><Typo.MD color="inverted">제출</Typo.MD></Button>
         </VStack>
     )
