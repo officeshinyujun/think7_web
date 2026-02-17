@@ -6,23 +6,33 @@ import s from "./style.module.scss";
 import Button from "@/components/general/Button";
 import { ChevronLeft } from "lucide-react";
 import { HStack } from "@/components/general/HStack";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import QuestionSection from "@/components/article/Question/QuestionSection"; // Import QuestionSection
 import { https } from "@/services/https";
 import { useAuth } from "@/contexts/AuthContext";
 import { useEffect, useState } from "react";
+import AnalysisLoading from "@/components/analysis/Loading";
 
 export default function Article() {
     const router = useRouter();
+    const searchParams = useSearchParams();
+    const contentId = searchParams.get('contentId');
     const { user } = useAuth();
     const [content, setContent] = useState<any>(null);
     const [answers, setAnswers] = useState<{ [key: string]: number }>({}); // questionId -> selected number
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     useEffect(() => {
-        https.content.getToday()
-            .then(res => setContent(res))
-            .catch(err => console.error(err));
-    }, []);
+        if (contentId) {
+            https.content.get(contentId)
+                .then(res => setContent(res))
+                .catch(err => console.error(err));
+        } else {
+            https.content.getToday()
+                .then(res => setContent(res))
+                .catch(err => console.error(err));
+        }
+    }, [contentId]);
 
     const handleSubmit = async () => {
         if (!content) return;
@@ -46,6 +56,7 @@ export default function Article() {
             return;
         }
 
+        setIsSubmitting(true);
         try {
             const report = await https.analysis.submit({
                 userId: user?.id || '',
@@ -56,9 +67,11 @@ export default function Article() {
         } catch (error) {
             console.error(error);
             alert("제출에 실패했습니다.");
+            setIsSubmitting(false);
         }
     };
 
+    if (isSubmitting) return <AnalysisLoading />;
     if (!content) return <div>Loading...</div>; // Or skeleton
 
     const quizData = content.questions.map((q: any) => ({
@@ -109,7 +122,7 @@ export default function Article() {
                     <VStack fullWidth align="start" justify="start"  className={s.buttonContainer}>
                         <div className={s.gradient}/>
                         <VStack fullWidth align="center" justify="center" className={s.buttonContainerTwo}>
-                            <Button className={s.button} onClick={() => router.push("/article/question")}>
+                            <Button className={s.button} onClick={() => router.push(contentId ? `/article/question?contentId=${contentId}` : "/article/question")}>
                                 <Typo.MD
                                     color="inverted"
                                     fontWeight="semi-bold"

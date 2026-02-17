@@ -21,6 +21,7 @@ export interface Content {
   body: string;
   difficulty: Difficulty;
   estimated_time: number;
+  is_premium: boolean;
   questions: Question[];
   thumbnail_image?: string;
   published_date: string;
@@ -91,6 +92,7 @@ export interface User {
   id: string;
   email: string;
   subscription_plan: SubscriptionPlan;
+  subscription_expires_at?: string;
   profile_image?: string;
 }
 
@@ -137,6 +139,20 @@ export const https = {
   content: {
     getToday: async (): Promise<Content> => {
       const response = await apiClient.get<Content>('/content/today');
+      return response.data;
+    },
+    get: async (id: string): Promise<Content> => {
+      const response = await apiClient.get<Content>(`/content/${id}`);
+      return response.data;
+    },
+    getLibrary: async (topic?: string): Promise<Content[]> => {
+      const response = await apiClient.get<Content[]>('/content/library', {
+        params: topic ? { topic } : {},
+      });
+      return response.data;
+    },
+    generate: async (topic: string): Promise<Content> => {
+      const response = await apiClient.post<Content>('/content/generate', { topic });
       return response.data;
     },
   },

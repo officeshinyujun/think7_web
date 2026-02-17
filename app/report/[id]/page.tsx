@@ -9,6 +9,7 @@ import { HStack } from "@/components/general/HStack";
 import Button from "@/components/general/Button";
 import { useRouter } from "next/navigation";
 import Sidebar from "@/components/general/Sidebar";
+import { Lock } from "lucide-react";
 import { https } from "@/services/https";
 import { useEffect, useState, use } from "react";
 
@@ -27,6 +28,19 @@ export default function ReportDetail({ params }: { params: Promise<{ id: string 
     }, [id]);
 
     if (!report) return <div>Loading...</div>;
+
+    const PremiumLockOverlay = () => (
+        <VStack align="start" justify="start" gap={12} className={s.lockOverlay}>
+            <Typo.MD color="primary" fontWeight="bold">Premium 리포트에서만 확인 가능합니다</Typo.MD>
+            <Button 
+                className={s.nextButton} 
+                style={{width: 'auto', padding: '8px 16px', height: 'auto', marginTop: '12px'}}
+                onClick={() => router.push('/profile/plan')}
+            >
+                <Typo.SM color="inverted" fontWeight="bold">업그레이드 하러가기</Typo.SM>
+            </Button>
+        </VStack>
+    );
 
     return (
         <div className={s.container}>
@@ -103,7 +117,14 @@ export default function ReportDetail({ params }: { params: Promise<{ id: string 
                                         </Typo.SM>
                                         <div style={{height: '4px'}} />
                                         <Typo.XS color="secondary">해설</Typo.XS>
-                                        <Typo.SM color="primary" fontWeight="regular">{item.explanation}</Typo.SM>
+                                        {item.explanation ? (
+                                            <Typo.SM color="primary" fontWeight="regular">{item.explanation}</Typo.SM>
+                                        ) : (
+                                            <HStack align="center" gap={4} onClick={() => router.push('/profile/plan')} style={{cursor:'pointer', padding: '8px 0'}}>
+                                                <Lock size={14} color="#3D7BFF"/>
+                                                <Typo.SM color="brand" fontWeight="bold">프리미엄 해설 보기</Typo.SM>
+                                            </HStack>
+                                        )}
                                     </VStack>
                                 </VStack>
                             ))}
@@ -111,42 +132,48 @@ export default function ReportDetail({ params }: { params: Promise<{ id: string 
                     </Section>
 
                     <Section title="사고 유형 진단">
-                        <VStack fullWidth gap={12}>
-                            <VStack fullWidth gap={4}>
-                                <Typo.LG color="brand" fontWeight="bold">{report.thinking_type?.type}</Typo.LG>
-                                <Typo.SM color="primary" fontWeight="medium">{report.thinking_type?.description}</Typo.SM>
+                        <div className={report.thinking_type?.type === "LOCKED" ? s.lockedSection : ""}>
+                            <VStack fullWidth gap={12} className={report.thinking_type?.type === "LOCKED" ? s.blurContent : ""}>
+                                <VStack fullWidth gap={4} >
+                                    <Typo.LG color="brand" fontWeight="bold">{report.thinking_type?.type === "LOCKED" ? "논리적 전략가형" : report.thinking_type?.type}</Typo.LG>
+                                    <Typo.SM color="primary" fontWeight="medium">{report.thinking_type?.type === "LOCKED" ? "분석된 사고 유형 설명이 여기에 표시됩니다." : report.thinking_type?.description}</Typo.SM>
+                                </VStack>
+                                <HStack fullWidth gap={12}>
+                                    <VStack className={s.typeBox} align="start" justify="center" gap={4}>
+                                        <Typo.XS color="secondary">강점</Typo.XS>
+                                        <Typo.SM color="primary" fontWeight="bold">{report.thinking_type?.type === "LOCKED" ? "분석된 강점" : report.thinking_type?.strength}</Typo.SM>
+                                    </VStack>
+                                    <VStack className={s.typeBox} align="start" justify="center" gap={4}>
+                                        <Typo.XS color="secondary">약점</Typo.XS>
+                                        <Typo.SM color="primary" fontWeight="bold">{report.thinking_type?.type === "LOCKED" ? "분석된 약점" : report.thinking_type?.weakness}</Typo.SM>
+                                    </VStack>
+                                </HStack>
                             </VStack>
-                            <HStack fullWidth gap={12}>
-                                <VStack className={s.typeBox} align="start" justify="center" gap={4}>
-                                    <Typo.XS color="secondary">강점</Typo.XS>
-                                    <Typo.SM color="primary" fontWeight="bold">{report.thinking_type?.strength}</Typo.SM>
-                                </VStack>
-                                <VStack className={s.typeBox} align="start" justify="center" gap={4}>
-                                    <Typo.XS color="secondary">약점</Typo.XS>
-                                    <Typo.SM color="primary" fontWeight="bold">{report.thinking_type?.weakness}</Typo.SM>
-                                </VStack>
-                            </HStack>
-                        </VStack>
+                            {report.thinking_type?.type === "LOCKED" && <PremiumLockOverlay />}
+                        </div>
                     </Section>
 
                     <Section title="간단 성장 피드백">
-                        <VStack fullWidth gap={12}>
-                            <HStack fullWidth justify="between" align="center" className={s.growthBox}>
-                                <VStack align="center" justify="center" gap={4}>
-                                    <Typo.XS color="secondary">이전 평균</Typo.XS>
-                                    <Typo.MD color="primary" fontWeight="semi-bold">{report.growth?.previous_average_score || 0}점</Typo.MD>
-                                </VStack>
-                                <Typo.MD color="secondary">→</Typo.MD>
-                                <VStack align="center" justify="center" gap={4}>
-                                    <Typo.XS color="secondary">이번 점수</Typo.XS>
-                                    <Typo.MD color="brand" fontWeight="bold">{report.growth?.current_score || 0}점</Typo.MD>
-                                </VStack>
-                                <div className={s.trendBadge}>
-                                    <Typo.XS color="brand" fontWeight="bold">+{ (report.growth?.current_score || 0) - (report.growth?.previous_average_score || 0)} 상승</Typo.XS>
-                                </div>
-                            </HStack>
-                            <Typo.SM color="primary" fontWeight="medium">{report.growth?.comment}</Typo.SM>
-                        </VStack>
+                        <div className={report.growth?.trend === "LOCKED" ? s.lockedSection : ""}>
+                            <VStack fullWidth gap={12} className={report.growth?.trend === "LOCKED" ? s.blurContent : ""}>
+                                <HStack fullWidth justify="between" align="center" className={s.growthBox}>
+                                    <VStack align="center" justify="center" gap={4}>
+                                        <Typo.XS color="secondary">이전 평균</Typo.XS>
+                                        <Typo.MD color="primary" fontWeight="semi-bold">{report.growth?.previous_average_score || 0}점</Typo.MD>
+                                    </VStack>
+                                    <Typo.MD color="secondary">→</Typo.MD>
+                                    <VStack align="center" justify="center" gap={4}>
+                                        <Typo.XS color="secondary">이번 점수</Typo.XS>
+                                        <Typo.MD color="brand" fontWeight="bold">{report.growth?.current_score || 0}점</Typo.MD>
+                                    </VStack>
+                                    <div className={s.trendBadge}>
+                                        <Typo.XS color="brand" fontWeight="bold">+{ (report.growth?.current_score || 0) - (report.growth?.previous_average_score || 0)} 상승</Typo.XS>
+                                    </div>
+                                </HStack>
+                                <Typo.SM color="primary" fontWeight="medium">{report.growth?.trend === "LOCKED" ? "분석된 성장 피드백이 여기에 표시됩니다." : report.growth?.comment}</Typo.SM>
+                            </VStack>
+                            {report.growth?.trend === "LOCKED" && <PremiumLockOverlay />}
+                        </div>
                     </Section>
                     <Button className={s.nextButton} onClick={() => router.push('/report')}>
                         <Typo.MD color="inverted" fontWeight="bold">돌아가기</Typo.MD>

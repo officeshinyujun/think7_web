@@ -70,8 +70,13 @@ export default function Profile() {
                     <Typo.SM color="inverted" fontWeight="medium" style={{opacity: 0.9}}>
                         {user.subscription_plan === 'PREMIUM' ? (
                             <>
-                                프리미엄 혜택을<br/>
-                                마음껏 누리고 계시네요!
+                                {user.subscription_expires_at ? (
+                                    <>
+                                        {new Date(user.subscription_expires_at).toLocaleDateString()} 만료 예정
+                                    </>
+                                ) : (
+                                    '프리미엄 혜택을 이용 중입니다'
+                                )}
                             </>
                         ) : (
                             <>

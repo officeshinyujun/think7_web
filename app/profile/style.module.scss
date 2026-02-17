@@ -28,15 +28,15 @@
 
 .desktopContent {
     width: 100%;
+    height: 100vh;
+    overflow-y: auto;
     display: flex;
     flex-direction: column;
     gap: 24px;
     
     @media (min-width: 768px) {
-        margin-left: 280px;
         padding: 40px;
-        max-width: 100%;
-        padding-right: 40px; // Add right padding for balance
+        flex: 1;
     }
 }
 

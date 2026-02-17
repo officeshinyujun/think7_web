@@ -13,10 +13,12 @@
 
 .desktopContent {
     width: 100%;
+    height: 100vh;
+    overflow-y: auto;
     
     @media (min-width: 768px) {
-        margin-left: 280px;
         padding: 40px;
+        flex: 1;
         display: flex;
         justify-content: center;
         align-items: flex-start;
@@ -97,4 +99,30 @@
     background-color: $brand-primary !important;
     border-radius: $s-16 !important;
     width: 100%;
+}
+
+.lockedSection {
+    position: relative;
+    border-radius: $s-16;
+    overflow: hidden;
+    padding: $s-16;
+    
+    .blurContent {
+        filter: blur(6px);
+        opacity: 0.6;
+        pointer-events: none;
+        user-select: none;
+    }
+    
+    .lockOverlay {
+        padding: $s-16;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 10;
+        gap: 12px;
+        background: rgba(255, 255, 255, 0.4);
+    }
 }

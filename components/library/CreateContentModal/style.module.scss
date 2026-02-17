@@ -1,0 +1,81 @@
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal {
+    background-color: white;
+    padding: $s-24;
+    border-radius: $s-16;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.closeButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 50%;
+    
+    &:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+    }
+}
+
+.input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid $border-primary;
+    border-radius: $s-12;
+    font-size: 16px;
+    outline: none;
+    transition: all 0.2s;
+
+    &:focus {
+        border-color: $brand-primary;
+    }
+}
+
+.submitButton {
+    height: 48px;
+    border-radius: $s-12;
+    background-color: $brand-primary;
+    
+    &:disabled {
+        background-color: $background-third;
+        cursor: not-allowed;
+        opacity: 0.7;
+    }
+}
+
+.loading {
+    background-color: $brand-primary !important;
+    opacity: 1 !important;
+}
+
+.spinner {
+    animation: spin 1s linear infinite;
+    color: white;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}

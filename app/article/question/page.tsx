@@ -5,24 +5,34 @@ import s from "./style.module.scss";
 import QuestionSection from "@/components/article/Question/QuestionSection";
 import Button from "@/components/general/Button";
 import Typo from "@/components/general/Typo";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { HStack } from "@/components/general/HStack";
 import { ChevronLeft } from "lucide-react";
 import { useState, useEffect } from "react";
 import { https } from "@/services/https";
 import { useAuth } from "@/contexts/AuthContext";
+import AnalysisLoading from "@/components/analysis/Loading";
 
 export default function Question() {
     const router = useRouter();
+    const searchParams = useSearchParams();
+    const contentId = searchParams.get('contentId');
     const { user } = useAuth();
     const [content, setContent] = useState<any>(null);
     const [answers, setAnswers] = useState<{ [key: string]: number }>({});
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     useEffect(() => {
-        https.content.getToday()
-            .then(res => setContent(res))
-            .catch(err => console.error(err));
-    }, []);
+        if (contentId) {
+            https.content.get(contentId)
+                .then(res => setContent(res))
+                .catch(err => console.error(err));
+        } else {
+            https.content.getToday()
+                .then(res => setContent(res))
+                .catch(err => console.error(err));
+        }
+    }, [contentId]);
 
     const handleSubmit = async () => {
         if (!content) return;
@@ -43,6 +53,7 @@ export default function Question() {
             return;
         }
 
+        setIsSubmitting(true);
         try {
             const report = await https.analysis.submit({
                 userId: user?.id || '',
@@ -53,9 +64,11 @@ export default function Question() {
         } catch (error) {
             console.error(error);
             alert("제출에 실패했습니다.");
+            setIsSubmitting(false);
         }
     };
 
+    if (isSubmitting) return <AnalysisLoading />;
     if (!content) return <div>Loading...</div>;
 
     const quizData = content.questions.map((q: any) => ({

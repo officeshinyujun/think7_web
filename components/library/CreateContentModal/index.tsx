@@ -1,0 +1,84 @@
+'use client';
+
+import { useState } from 'react';
+import { https } from '@/services/https';
+import s from './style.module.scss';
+import { VStack } from '@/components/general/VStack';
+import { HStack } from '@/components/general/HStack';
+import Typo from '@/components/general/Typo';
+import Button from '@/components/general/Button';
+import { X, Loader2 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+
+interface CreateContentModalProps {
+    onClose: () => void;
+    onSuccess: () => void;
+}
+
+export default function CreateContentModal({ onClose, onSuccess }: CreateContentModalProps) {
+    const [topic, setTopic] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+    const router = useRouter();
+
+    const handleSubmit = async () => {
+        if (!topic.trim()) return;
+        
+        setIsLoading(true);
+        try {
+            await https.content.generate(topic);
+            onSuccess();
+            onClose();
+        } catch (error) {
+            console.error('Failed to generate content:', error);
+            alert('콘텐츠 생성에 실패했습니다.');
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    return (
+        <div className={s.overlay}>
+            <div className={s.modal} onClick={(e) => e.stopPropagation()}>
+                <VStack fullWidth align="start" gap={24}>
+                    <HStack fullWidth justify="between" align="center">
+                        <Typo.LG color="primary" fontWeight="bold">AI 문제 생성</Typo.LG>
+                        <button onClick={onClose} className={s.closeButton}>
+                            <X size={24} color="#8B847F" />
+                        </button>
+                    </HStack>
+
+                    <VStack fullWidth align="start" gap={8}>
+                        <Typo.SM color="secondary" fontWeight="medium">주제</Typo.SM>
+                        <input
+                            type="text"
+                            className={s.input}
+                            placeholder="예: 양자역학, 소크라테스의 변명, 인공지능 윤리"
+                            value={topic}
+                            onChange={(e) => setTopic(e.target.value)}
+                            disabled={isLoading}
+                        />
+                        <Typo.XS color="secondary" fontWeight="regular">
+                            원하는 주제를 입력하면 AI가 맞춤형 문제를 생성해드립니다.
+                        </Typo.XS>
+                    </VStack>
+
+                    <Button 
+                        style={{ width: '100%' }}
+                        onClick={handleSubmit} 
+                        disabled={isLoading || !topic.trim()}
+                        className={`${s.submitButton} ${isLoading ? s.loading : ''}`}
+                    >
+                        {isLoading ? (
+                            <HStack gap={8} align="center" justify="center">
+                                <Loader2 size={20} className={s.spinner} />
+                                <Typo.MD color="inverted" fontWeight="bold">생성 중...</Typo.MD>
+                            </HStack>
+                        ) : (
+                            <Typo.MD color="brand" fontWeight="bold">생성하기</Typo.MD>
+                        )}
+                    </Button>
+                </VStack>
+            </div>
+        </div>
+    );
+}

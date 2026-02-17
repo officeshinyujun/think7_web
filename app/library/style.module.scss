@@ -1,0 +1,152 @@
+.container {
+    width: 100vw;
+    height: 100vh;
+    background-color: $background-secondary;
+
+    @media (min-width: 768px) {
+        display: flex;
+        overflow: hidden;
+    }
+}
+
+.pageContent {
+    width: 100%;
+    height: 100vh;
+    overflow-y: auto;
+    padding: $s-16;
+    padding-bottom: 120px;
+
+    @media (min-width: 768px) {
+        padding: 40px;
+        padding-bottom: 40px;
+        flex: 1;
+    }
+}
+
+.inner {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.dailyLimit {
+    background-color: rgba($brand-primary, 0.1);
+    padding: 6px 12px;
+    border-radius: 999px;
+}
+
+// Filter Bar
+.filterBar {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    width: 100%;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+.filterChip {
+    padding: 8px 16px;
+    border-radius: 999px;
+    border: 1px solid $border-primary;
+    background-color: $background-primary;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+
+    &:hover {
+        border-color: $brand-primary;
+    }
+}
+
+.filterActive {
+    background-color: $brand-primary !important;
+    border-color: $brand-primary !important;
+}
+
+// Content Card
+.contentCard {
+    width: 100%;
+    padding: $s-16 $s-20;
+    background-color: $background-primary;
+    border-radius: $s-16;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: all 0.2s;
+
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+    }
+
+    &.locked {
+        opacity: 0.75;
+
+        &:hover {
+            opacity: 1;
+        }
+    }
+}
+
+.topicBadge {
+    padding: 4px 10px;
+    background-color: rgba($brand-primary, 0.1);
+    border-radius: 6px;
+}
+
+.difficultyBadge {
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.premiumBadge {
+    padding: 4px 10px;
+    background: linear-gradient(135deg, $brand-primary 0%, #2A5ECC 100%);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+// Upgrade Banner
+.upgradeBanner {
+    width: 100%;
+    padding: $s-24;
+    background: linear-gradient(135deg, $brand-primary 0%, #2A5ECC 100%);
+    border-radius: $s-20;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    transition: transform 0.2s;
+
+    &:hover {
+        transform: translateY(-2px);
+    }
+
+    @media (max-width: 500px) {
+        flex-direction: column;
+        gap: 16px;
+        align-items: flex-start;
+    }
+}
+
+.upgradeCta {
+    padding: 10px 20px !important;
+    background-color: white !important;
+    border-radius: 12px !important;
+    white-space: nowrap;
+}
+
+.mobileBottomBar {
+    @media (min-width: 768px) {
+        display: none;
+    }
+}
