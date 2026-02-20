@@ -1,19 +1,20 @@
 'use client'
 
+import { Suspense, useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { VStack } from "@/components/general/VStack";
 import Typo from "@/components/general/Typo";
 import s from "./style.module.scss";
 import Button from "@/components/general/Button";
 import { ChevronLeft } from "lucide-react";
 import { HStack } from "@/components/general/HStack";
-import { useRouter, useSearchParams } from "next/navigation";
-import QuestionSection from "@/components/article/Question/QuestionSection"; // Import QuestionSection
+import QuestionSection from "@/components/article/Question/QuestionSection";
 import { https } from "@/services/https";
 import { useAuth } from "@/contexts/AuthContext";
-import { useEffect, useState } from "react";
 import AnalysisLoading from "@/components/analysis/Loading";
 
-export default function Article() {
+// 실제 로직이 포함된 내부 컴포넌트
+function ArticleInner() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const contentId = searchParams.get('contentId');
@@ -167,5 +168,13 @@ export default function Article() {
             </div>
         </>
     )
+}
 
+// 빌드 시 CSR Bailout 오류를 방지하기 위해 Suspense Boundary로 감싸서 export
+export default function Article() {
+    return (
+        <Suspense fallback={<div>Loading article...</div>}>
+            <ArticleInner />
+        </Suspense>
+    );
 }
