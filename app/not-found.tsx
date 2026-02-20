@@ -1,3 +1,5 @@
+'use client'
+
 import Link from 'next/link';
 import { VStack } from "@/components/general/VStack";
 import Typo from "@/components/general/Typo";

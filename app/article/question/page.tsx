@@ -8,12 +8,12 @@ import Typo from "@/components/general/Typo";
 import { useRouter, useSearchParams } from "next/navigation";
 import { HStack } from "@/components/general/HStack";
 import { ChevronLeft } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { https } from "@/services/https";
 import { useAuth } from "@/contexts/AuthContext";
 import AnalysisLoading from "@/components/analysis/Loading";
 
-export default function Question() {
+function QuestionContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const contentId = searchParams.get('contentId');
@@ -113,4 +113,12 @@ export default function Question() {
             </VStack>
         </div>
     )
+}
+
+export default function Question() {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <QuestionContent />
+        </Suspense>
+    );
 }
