@@ -41,7 +41,7 @@
     width: 100%;
     padding: $s-16;
     border-radius: $s-12;
-    background-color: $brand-primary;
+    background-color: $brand-primary !important;
     transition: opacity 0.2s;
 
     &:hover {
@@ -60,4 +60,36 @@
     border-radius: $s-8;
     background-color: rgba(218, 127, 127, 0.1);
     border: 1px solid $text-wrong;
+}
+
+.divider {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: $s-12;
+    margin: $s-12 0;
+}
+
+.line {
+    flex: 1;
+    height: 1px;
+    background-color: $border-primary;
+}
+
+.socialButton {
+    width: 100%;
+    padding: $s-16;
+    border-radius: $s-12;
+    border: 1px solid $border-primary;
+    background-color: $background-primary;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: $s-12;
+    cursor: pointer;
+    transition: background-color 0.2s;
+
+    &:hover {
+        background-color: $background-secondary;
+    }
 }

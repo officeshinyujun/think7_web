@@ -105,3 +105,71 @@
     background-color: rgba($text-wrong, 0.05);
     border-radius: $s-12;
 }
+
+.passwordForm {
+    padding: $s-16;
+    background-color: $background-secondary;
+    border-radius: $s-16;
+    margin-top: 8px;
+}
+
+.passwordInputWrapper {
+    position: relative;
+    width: 100%;
+
+    .input {
+        padding-right: 44px;
+    }
+}
+
+.eyeButton {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: $s-16;
+}
+
+.modal {
+    background: white;
+    border-radius: $s-20;
+    padding: $s-24;
+    width: 100%;
+    max-width: 420px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+}
+
+.closeButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+
+    &:hover {
+        background-color: $background-secondary;
+    }
+}

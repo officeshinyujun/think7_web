@@ -27,7 +27,7 @@ export default function Home() {
   useEffect(() => {
     if (isLoading) return;
     if (!user) {
-      router.push('/auth/login');
+      router.push('/landing');
       return;
     }
     const fetchData = async () => {
@@ -90,11 +90,20 @@ export default function Home() {
   const thisWeek = getThisWeek(reportHistory);
   const todayCompleted = reportHistory.some((r: any) => r.day === new Date().toISOString().split('T')[0]);
 
-  // Transform ReportHistory to GrowthChart data
-  const growthData = reportHistory.map((r: any) => ({
-    day: r.day.slice(5),
-    score: r.summary.score
-  })).slice(-7);
+  // Transform ReportHistory to GrowthChart data (max score per day, last 7 days)
+  const growthData = (() => {
+    const dayMap = new Map<string, number>();
+    reportHistory.forEach((r: any) => {
+      const existing = dayMap.get(r.day);
+      if (existing === undefined || r.summary.score > existing) {
+        dayMap.set(r.day, r.summary.score);
+      }
+    });
+    return Array.from(dayMap.entries())
+      .sort(([a], [b]) => a.localeCompare(b))
+      .slice(-7)
+      .map(([day, score]) => ({ day: day.slice(5), score }));
+  })();
 
   // Latest Report
   const latestReport = reportHistory.length > 0 ? {

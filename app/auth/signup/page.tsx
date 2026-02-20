@@ -12,7 +12,7 @@ import { useAuth } from "@/contexts/AuthContext";
 
 export default function Signup() {
     const router = useRouter();
-    const { signup } = useAuth();
+    const { signup, googleLogin } = useAuth();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -98,6 +98,26 @@ export default function Signup() {
                     <Typo.SM color="secondary">이미 계정이 있으신가요?</Typo.SM>
                     <Typo.SM color="brand" fontWeight="bold" style={{cursor: 'pointer'}} onClick={() => router.push('/auth/login')}>로그인</Typo.SM>
                 </HStack>
+
+                <div className={s.divider}>
+                    <div className={s.line} />
+                    <Typo.XS color="secondary">또는</Typo.XS>
+                    <div className={s.line} />
+                </div>
+
+                <VStack fullWidth gap={12}>
+                    <button className={s.socialButton} onClick={async () => {
+                        try {
+                            await googleLogin();
+                            router.push('/');
+                        } catch (err: any) {
+                            setError(err?.response?.data?.message || 'Google 로그인에 실패했습니다.');
+                        }
+                    }}>
+                        <Image src="/google.png" alt="google" width={20} height={20} />
+                        <Typo.SM color="primary" fontWeight="medium">Google로 시작하기</Typo.SM>
+                    </button>
+                </VStack>
             </VStack>
         </div>
     )

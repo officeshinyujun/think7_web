@@ -9,8 +9,11 @@ import Button from "@/components/general/Button";
 import { useRouter } from "next/navigation";
 import Sidebar from "@/components/general/Sidebar";
 
+
 export default function PlanDetails() {
     const router = useRouter();
+    
+
 
     const features = [
         { icon: <BrainCircuit size={24} color="#3D7BFF"/>, title: "사고 유형 정밀 진단", desc: "논리적 전략가, 직관형 분석가 등 나만의 사고 패턴을 분석합니다" },
@@ -95,7 +98,7 @@ export default function PlanDetails() {
                         <Typo.SM color="inverted" fontWeight="medium" style={{opacity: 0.8}}>
                             커피 한 잔 값으로 시작하는<br/>매일의 사고력 훈련
                         </Typo.SM>
-                        <Button className={s.ctaButton}>
+                        <Button className={s.ctaButton} onClick={() => window.alert('준비중입니다.')}>
                             <Typo.MD color="brand" fontWeight="bold">지금 시작하기</Typo.MD>
                         </Button>
                     </VStack>
@@ -148,7 +151,7 @@ export default function PlanDetails() {
                     </VStack>
 
                     {/* Bottom CTA */}
-                    <Button className={s.ctaButtonBottom} onClick={() => {}}>
+                    <Button className={s.ctaButtonBottom} onClick={() => window.alert('준비중입니다.')}>
                         <Typo.MD color="inverted" fontWeight="bold">Premium 시작하기 — 월 5,900원</Typo.MD>
                     </Button>
                 </VStack>

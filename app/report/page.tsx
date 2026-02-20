@@ -39,7 +39,7 @@ export default function Report() {
                         {reports.map((item, index) => (
                             <div key={item.id} style={{width: '100%', cursor: 'pointer'}} onClick={() => router.push(`/report/${item.id}`)}>
                                 <Section title={item.day}>
-                                    <Typo.MD color="primary" fontWeight="semi-bold">{item.summary?.comment || "분석 결과 없음"}</Typo.MD>
+                                    <Typo.MD color="primary" fontWeight="semi-bold">{item.summary?.comment || `종합 점수: ${item.summary?.score ?? 0}점`}</Typo.MD>
                                 </Section>
                             </div>
                         ))}

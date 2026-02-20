@@ -5,6 +5,7 @@ import axios, { AxiosResponse } from 'axios';
 export type Difficulty = 'EASY' | 'MEDIUM' | 'HARD';
 export type QuestionType = 'MULTIPLE_CHOICE' | 'SUBJECTIVE';
 export type SubscriptionPlan = 'FREE' | 'PREMIUM';
+export type AuthProvider = 'EMAIL' | 'GOOGLE';
 
 export interface Question {
   id: string;
@@ -94,6 +95,7 @@ export interface User {
   subscription_plan: SubscriptionPlan;
   subscription_expires_at?: string;
   profile_image?: string;
+  auth_provider?: AuthProvider;
 }
 
 // Axios Instance
@@ -135,6 +137,18 @@ export const https = {
       const response = await apiClient.post<AuthResponse>('/auth/google', { firebaseToken });
       return response.data;
     },
+    changePassword: async (userId: string, currentPassword: string, newPassword: string): Promise<{ message: string }> => {
+      const response = await apiClient.patch<{ message: string }>('/auth/change-password', { userId, currentPassword, newPassword });
+      return response.data;
+    },
+    setPassword: async (userId: string, newPassword: string): Promise<{ message: string }> => {
+      const response = await apiClient.patch<{ message: string }>('/auth/set-password', { userId, newPassword });
+      return response.data;
+    },
+    deleteAccount: async (userId: string): Promise<{ message: string }> => {
+      const response = await apiClient.delete<{ message: string }>('/auth/account', { params: { userId } });
+      return response.data;
+    },
   },
   content: {
     getToday: async (): Promise<Content> => {
@@ -171,6 +185,10 @@ export const https = {
       const response = await apiClient.get<AnalysisReport[]>('/report', {
         params: { userId },
       });
+      return response.data;
+    },
+    deleteAll: async (userId: string): Promise<{ deleted: number }> => {
+      const response = await apiClient.delete<{ deleted: number }>('/report', { params: { userId } });
       return response.data;
     },
   },

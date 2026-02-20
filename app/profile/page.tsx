@@ -28,7 +28,7 @@ export default function Profile() {
 
     const handleLogout = () => {
         logout();
-        router.push('/auth/login');
+        router.push('/landing');
     };
 
     if (!user) return <div>Loading...</div>;

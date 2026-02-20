@@ -11,10 +11,10 @@ import { useAuth } from "@/contexts/AuthContext";
 import { https, Content } from "@/services/https";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Lock, Clock, ChevronRight, Sparkles, Crown, Plus } from "lucide-react";
+import { Lock, Clock, ChevronRight, Sparkles, Crown, Plus, CalendarDays } from "lucide-react";
 import CreateContentModal from "@/components/library/CreateContentModal";
 
-const TOPICS = ['전체', '철학', '사회', '경제', '기술', 'AI'];
+const TOPICS = ['전체'];
 const DIFFICULTY_LABELS: Record<string, string> = {
     EASY: '쉬움',
     MEDIUM: '보통',
@@ -174,6 +174,10 @@ export default function Library() {
                                         <Typo.MD color="primary" fontWeight="bold">{content.title}</Typo.MD>
                                         <HStack gap={12} align="center">
                                             <HStack gap={4} align="center">
+                                                <CalendarDays size={14} color="#8B847F" />
+                                                <Typo.XS color="secondary" fontWeight="medium">{new Date(content.created_at).toLocaleDateString('ko-KR', { month: 'short', day: 'numeric' })}</Typo.XS>
+                                            </HStack>
+                                            <HStack gap={4} align="center">
                                                 <Clock size={14} color="#8B847F" />
                                                 <Typo.XS color="secondary" fontWeight="medium">{content.estimated_time}분</Typo.XS>
                                             </HStack>
@@ -215,6 +219,10 @@ export default function Library() {
                                         </HStack>
                                         <Typo.MD color="primary" fontWeight="bold">{content.title}</Typo.MD>
                                         <HStack gap={12} align="center">
+                                            <HStack gap={4} align="center">
+                                                <CalendarDays size={14} color="#8B847F" />
+                                                <Typo.XS color="secondary" fontWeight="medium">{new Date(content.created_at).toLocaleDateString('ko-KR', { month: 'short', day: 'numeric' })}</Typo.XS>
+                                            </HStack>
                                             <HStack gap={4} align="center">
                                                 <Clock size={14} color="#8B847F" />
                                                 <Typo.XS color="secondary" fontWeight="medium">{content.estimated_time}분</Typo.XS>
